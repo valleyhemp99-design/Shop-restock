@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Restock App</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #f2f2f7; padding: 20px; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .urgent { border-left: 6px solid #ff3b30; }
+        .btn { background: #007aff; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>📦 Live Shop Restock</h1>
+    <div id="display">Syncing...</div>
+    <script>
+        const API = 'https://script.google.com/macros/s/AKfycbwHfFeT6O4M5j9gYUOIEQ4u9Xa0oQF4XpnEswjOV_4t4JapPYQ5qIXFflD415Jg8XCF/exec';
+        async function sync() {
+            const res = await fetch(API);
+            const data = await res.json();
+            document.getElementById('display').innerHTML = data.map(d => `
+                <div class="card ${d.u === 'Yes' ? 'urgent' : ''}">
+                    <div><strong>${d.i}</strong><br><small>${d.b}</small></div>
+                    <a href="${d.l}" class="btn" target="_blank">Order</a>
+                </div>
+            `).join('');
+        }
+        setInterval(sync, 10000); sync();
+    </script>
+</body>
+</html>
