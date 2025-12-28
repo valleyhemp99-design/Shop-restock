@@ -3,30 +3,53 @@
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Restock App</title>
     <style>
         body { font-family: -apple-system, sans-serif; background: #f2f2f7; padding: 20px; }
-        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .urgent { border-left: 6px solid #ff3b30; }
-        .btn { background: #007aff; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; }
+        .urgent { border-left: 8px solid #ff3b30; }
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn { background: #007aff; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; flex: 1; text-align: center; border: none; }
+        .info-box { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 13px; display: none; color: #444; border: 1px solid #ddd; }
+        h1 { font-size: 26px; }
     </style>
 </head>
 <body>
-    <h1>📦 Live Shop Restock</h1>
+    <h1>📦 Shop Command</h1>
     <div id="display">Syncing...</div>
+
     <script>
-        const API = 'https://script.google.com/macros/s/AKfycbwHfFeT6O4M5j9gYUOIEQ4u9Xa0oQF4XpnEswjOV_4t4JapPYQ5qIXFflD415Jg8XCF/exec';
+        const API = 'PASTE_YOUR_URL_HERE';
+        let tipsData = {};
+
         async function sync() {
             const res = await fetch(API);
             const data = await res.json();
-            document.getElementById('display').innerHTML = data.map(d => `
+            tipsData = data.tips;
+            
+            document.getElementById('display').innerHTML = data.orders.map(d => {
+                const brandKey = d.b.toLowerCase();
+                const hasTip = tipsData[brandKey];
+                return `
                 <div class="card ${d.u === 'Yes' ? 'urgent' : ''}">
-                    <div><strong>${d.i}</strong><br><small>${d.b}</small></div>
-                    <a href="${d.l}" class="btn" target="_blank">Order</a>
+                    <div><strong>${d.i}</strong><br><small>${d.b.toUpperCase()}</small></div>
+                    <div id="tip-${brandKey}" class="info-box">
+                        <strong>Pro Tip:</strong> ${hasTip ? hasTip.tip : 'No tips added yet.'}<br>
+                        <strong>Specs:</strong> ${hasTip ? hasTip.specs : 'N/A'}
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" style="background:#8e8e93" onclick="toggleTip('${brandKey}')">Tips</button>
+                        <a href="${d.l}" class="btn" target="_blank">Order</a>
+                    </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
-        setInterval(sync, 10000); sync();
+
+        function toggleTip(id) {
+            const el = document.getElementById('tip-' + id);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+
+        setInterval(sync, 15000); sync();
     </script>
 </body>
 </html>
