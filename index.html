@@ -6,19 +6,14 @@
   
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#121212"> <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#121212"> 
   
   <title>Valley Hemp OS</title>
   <style>
     body { background: #121212; color: #e0e0e0; font-family: -apple-system, sans-serif; padding: 15px; margin: 0; padding-bottom: 100px; }
     
-    /* Responsive Grid: Works on iPad AND Phones */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; max-width: 1200px; margin: 0 auto; }
-    
-    /* On very small phones, force 1 column */
-    @media (max-width: 350px) {
-      .grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 350px) { .grid { grid-template-columns: 1fr; } }
 
     .card { background: #1e1e1e; border-radius: 12px; padding: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
     .brand { color: #00e676; font-weight: bold; text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px; }
@@ -30,10 +25,10 @@
     .vendor-btn { text-align: center; background: #333; color: #bbb; padding: 10px; border-radius: 6px; text-decoration: none; font-size: 0.85em; border: 1px solid #444; transition: 0.2s; }
     
     /* SMART HIGHLIGHT COLORS */
-    .vendor-btn.wcg-primary { border: 1px solid #00e676; color: #00e676; background: #1a2e23; font-weight: bold; box-shadow: 0 0 5px rgba(0,230,118,0.2); }
-    .vendor-btn.hbi-primary { border: 1px solid #FF5722; color: #FF5722; background: #2e1a1a; font-weight: bold; box-shadow: 0 0 5px rgba(255,87,34,0.2); }
-    .vendor-btn.panda-primary { border: 1px solid #fff; color: #fff; background: #444; font-weight: bold; box-shadow: 0 0 5px rgba(255,255,255,0.2); }
-    .vendor-btn.afg-primary { border: 1px solid #9C27B0; color: #9C27B0; background: #2a1a2e; font-weight: bold; box-shadow: 0 0 5px rgba(156,39,176,0.2); }
+    .vendor-btn.wcg-primary { border: 1px solid #00e676; color: #00e676; background: #1a2e23; font-weight: bold; }
+    .vendor-btn.hbi-primary { border: 1px solid #FF5722; color: #FF5722; background: #2e1a1a; font-weight: bold; }
+    .vendor-btn.panda-primary { border: 1px solid #fff; color: #fff; background: #444; font-weight: bold; }
+    .vendor-btn.afg-primary { border: 1px solid #9C27B0; color: #9C27B0; background: #2a1a2e; font-weight: bold; }
 
     .archive-btn { width: 100%; padding: 12px; background: #2c2c2c; color: #888; border: 1px dashed #555; border-radius: 8px; cursor: pointer; }
     .fab { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #2196F3; color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 4px 10px #000; cursor: pointer; z-index: 900; }
@@ -62,9 +57,9 @@
     </div>
   </div>
 
-  <script>
+<script>
     // --- PASTE YOUR WEB APP URL HERE ---
-    const API_URL = 'https://script.google.com/macros/s/AKfycbw_-KMdtT5yK2iSBS45cgkxBX9knl2Ex7i_PIr01g2Nefl0aumUCEjnAR5WS4PkPGw2/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyDIpP6eROR3UtkRLvfL3daTVullzYHeX3LznnmuzTbBbQZuoyXUXjjY2d7GgFoEHvY/exec';
 
     async function loadData() {
       try {
@@ -81,33 +76,21 @@
         const [brand, item, , wcg, afg, panda, hbi, milky, , , customLink] = row;
         if(!brand) return;
         
-        // --- VISUAL PRIORITY LOGIC (Matches your Script) ---
+        // --- VISUAL HIGHLIGHT LOGIC ---
         const text = (brand + " " + item).toLowerCase();
         
-        // KEYWORD LISTS (Synced with your Brain)
-        const hbiWords = ["elements", "juicy", "bloom", "king palm", "cleaner", "incense", "smoke buddy", "mouthpeace", "skunk", "tips", "candle", "lighter", "torch", "raw", "paper", "cone", "formula", "iso"];
-        const afgWords = ["pulsar", "hemp", "stash", "poker", "novelty", "seshgear", "420 science", "bluum", "boveda", "arizer", "blazer", "bob marley", "burnt", "brnt", "cali", "clipper", "bic", "ccell", "crud", "atmos", "elf", "glob", "hemper", "hoss", "dr dabber", "fantasy", "fujima", "honey", "debowler", "dunkees", "art", "tapestry"];
+        const hbiWords = ["raw", "elements", "tray", "trays", "rolling", "roller", "machine", "juicy", "bloom", "king palm", "cleaner", "incense", "smoke buddy", "mouthpeace", "skunk", "tips", "pre-rolled tips", "candle", "lighter", "torch", "paper", "cone", "formula", "iso", "scale"];
+        const afgWords = ["shire", "pulsar", "hemp", "stash", "poker", "novelty", "seshgear", "420 science", "bluum", "boveda", "arizer", "blazer", "bob marley", "burnt", "brnt", "cali", "clipper", "bic", "ccell", "crud", "atmos", "elf", "glob", "hemper", "hoss", "dr dabber", "fantasy", "fujima", "honey", "debowler", "dunkees", "art", "tapestry"];
         const pandaWords = ["generic", "no name", "cheap", "bulk", "filter", "cartoon", "grinder", "knock off", "fantom", "titanium", "dab nails", "zippo", "colibri"];
         
-        // DETERMINE HIGHLIGHT
         let hbiClass = "", wcgClass = "", pandaClass = "", afgClass = "";
 
-        if (hbiWords.some(w => text.includes(w))) {
-            hbiClass = "hbi-primary";
-        } 
-        else if (afgWords.some(w => text.includes(w))) {
-            afgClass = "afg-primary";
-        }
-        else if (pandaWords.some(w => text.includes(w))) {
-            pandaClass = "panda-primary";
-        }
-        else {
-            wcgClass = "wcg-primary"; // Default Fallback
-        }
+        if (hbiWords.some(w => text.includes(w))) { hbiClass = "hbi-primary"; } 
+        else if (afgWords.some(w => text.includes(w))) { afgClass = "afg-primary"; }
+        else if (pandaWords.some(w => text.includes(w))) { pandaClass = "panda-primary"; }
+        else { wcgClass = "wcg-primary"; }
 
-        // BUILD BUTTONS
         let buttons = [];
-        // The order here determines visual order on screen
         if(wcg) buttons.push(`<a href="${wcg}" target="_blank" class="vendor-btn ${wcgClass}">WCG</a>`);
         if(hbi) buttons.push(`<a href="${hbi}" target="_blank" class="vendor-btn ${hbiClass}">HBI</a>`);
         if(panda) buttons.push(`<a href="${panda}" target="_blank" class="vendor-btn ${pandaClass}">Panda</a>`);
@@ -136,7 +119,6 @@
       document.getElementById('loading').style.display='flex';
       
       try {
-        // Fire and forget - force reload after 1s
         await fetch(API_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({action: "add_item", brand: brand, item: item, link: link}) });
       } catch (e) { console.log("Reloading"); }
       setTimeout(() => location.reload(), 1000);
@@ -152,4 +134,4 @@
     loadData();
   </script>
 </body>
-</html>
+</html>  
