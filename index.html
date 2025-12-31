@@ -8,46 +8,58 @@
     :root { --bg: #121212; --card: #1e1e1e; --accent: #00e676; --blue: #2196F3; --text: #e0e0e0; }
     body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 20px; margin: 0; padding-bottom: 100px; }
     
-    /* HEADER & SEARCH */
     .header { text-align: center; margin-bottom: 20px; }
     .search-bar { width: 100%; max-width: 400px; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #252525; color: #fff; font-size: 16px; margin-top: 10px; box-sizing: border-box; }
 
-    /* GRID */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; max-width: 1200px; margin: 0 auto; }
-    .card { background: var(--card); border-radius: 12px; padding: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s; }
-    .card:active { transform: scale(0.99); }
-    .brand { color: var(--accent); font-weight: bold; text-transform: uppercase; font-size: 0.9em; }
-    .item-name { font-size: 1.3em; font-weight: 600; margin: 5px 0 10px 0; color: #fff; }
+    
+    /* CARD STYLING */
+    .card { background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: flex; flex-direction: column; }
+    .card-header { padding: 16px 16px 5px 16px; }
+    .brand { color: var(--accent); font-weight: bold; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px; }
+    .item-name { font-size: 1.3em; font-weight: 600; margin: 5px 0 0 0; color: #fff; }
 
-    /* VENDOR BUTTONS */
-    .vendor-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-    .vendor-btn { flex-grow: 1; text-align: center; background: #333; color: #fff; padding: 6px; border-radius: 6px; text-decoration: none; font-size: 0.8em; border: 1px solid #444; }
-    .vendor-btn.wcg { border-color: #4CAF50; color: #4CAF50; }
-    .vendor-btn.panda { border-color: #fff; color: #fff; }
-    .vendor-btn.hbi { border-color: #FF5722; color: #FF5722; }
+    /* CARD TABS (THE NEW FEATURE) */
+    .tab-row { display: flex; background: #252525; margin-top: 10px; border-bottom: 1px solid #333; }
+    .tab-btn { flex: 1; padding: 10px; text-align: center; cursor: pointer; color: #777; font-size: 0.9em; font-weight: bold; user-select: none; transition: 0.2s; }
+    .tab-btn.active { color: var(--accent); border-bottom: 2px solid var(--accent); background: #2a2a2a; }
 
-    /* INFO & ARCHIVE */
-    .info-box { background: #252525; padding: 10px; border-radius: 8px; font-size: 0.9em; }
-    .label { color: #888; font-size: 0.75em; text-transform: uppercase; display: block; }
-    .specs { font-style: italic; color: #bbb; margin-top: 5px; }
-    .archive-btn { width: 100%; margin-top: 15px; padding: 12px; background: #2c2c2c; border: 1px dashed #555; color: #888; border-radius: 8px; cursor: pointer; }
-    .archive-btn:active { background: var(--accent); color: #000; border-style: solid; }
+    /* CARD CONTENT SECTIONS */
+    .card-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; min-height: 140px; }
+    .section { display: none; animation: fadeIn 0.3s; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* FLOATING BUTTONS */
-    .fab-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 999; }
-    .fab { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 24px; box-shadow: 0 4px 10px black; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;}
-    .fab-log { background: var(--accent); }
+    /* LINKS STYLING (For "Buy" Tab) */
+    .direct-link-btn { display: flex; justify-content: center; align-items: center; width: 100%; background: var(--accent); color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 12px; box-sizing: border-box; font-size: 0.95em; }
+    .vendor-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+    .vendor-btn { text-align: center; background: #333; color: #ccc; padding: 8px 4px; border-radius: 6px; text-decoration: none; font-size: 0.75em; border: 1px solid #444; }
+    .archive-btn { width: 100%; padding: 12px; background: #2c2c2c; border: 1px dashed #555; color: #888; border-radius: 8px; cursor: pointer; margin-top: auto; }
+
+    /* INFO STYLING (For "Info" Tab) */
+    .info-label { color: #888; font-size: 0.75em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+    .info-text { color: #e0e0e0; font-size: 0.95em; line-height: 1.4; margin-bottom: 15px; }
+    .specs-list { color: #aaa; font-style: italic; font-size: 0.9em; }
+
+    /* MODALS & FAB */
+    .fab-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 900; }
+    .fab { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 24px; box-shadow: 0 4px 10px black; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .fab-log { background: var(--accent); color: #000; }
     .fab-add { background: var(--blue); color: #fff; }
 
-    /* MODALS */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
-    .modal-box { background: #252525; padding: 25px; border-radius: 16px; width: 90%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .modal-box { background: #252525; padding: 25px; border-radius: 16px; width: 90%; max-width: 400px; }
     .input { width: 100%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #555; color: #fff; border-radius: 8px; box-sizing: border-box; font-size: 16px; } 
     .modal-btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
-    .close-btn { background: #444; color: #fff; }
+    
+    #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; flex-direction: column; justify-content: center; align-items: center; color: #00e676; font-size: 1.2em; font-weight: bold; }
+    .spinner { border: 4px solid #333; border-top: 4px solid #00e676; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
+
+  <div id="loadingOverlay"><div class="spinner"></div><div id="loadingText">Talking to Google...</div></div>
 
   <div class="header">
     <h1>VALLEY HEMP OS</h1>
@@ -57,133 +69,162 @@
   <div id="app" class="grid"><div style="text-align:center; color:#666; margin-top:50px;">Loading System...</div></div>
   
   <div class="fab-container">
-    <button class="fab fab-add" onclick="openAddModal()">+</button> <button class="fab fab-log" onclick="openLogModal()">📝</button> </div>
+    <button class="fab fab-add" onclick="openAddModal()">+</button>
+    <button class="fab fab-log" onclick="openLogModal()">📝</button>
+  </div>
 
   <div id="addModal" class="modal">
     <div class="modal-box">
-      <h2 style="margin-top:0">Add New Item</h2>
+      <h2>Add New Item</h2>
       <label class="label">Brand</label>
       <input type="text" id="addBrand" class="input" placeholder="e.g. Puffco">
       <label class="label">Item Name</label>
       <input type="text" id="addItem" class="input" placeholder="e.g. Proxy Kit">
+      <label class="label">Direct Link (Optional)</label>
+      <input type="text" id="addLink" class="input" placeholder="Paste URL here...">
       <button class="modal-btn" style="background:var(--blue); color:#fff;" onclick="submitNewItem()">Add to Queue</button>
-      <button class="modal-btn close-btn" onclick="closeAddModal()">Cancel</button>
+      <button class="modal-btn" style="background:#444; color:#fff;" onclick="closeAddModal()">Cancel</button>
     </div>
   </div>
 
   <div id="logModal" class="modal">
     <div class="modal-box">
-      <h2 style="margin-top:0">Quick Log</h2>
-      <label class="label">Type</label>
+      <h2>Quick Log</h2>
       <select id="logType" class="input">
         <option value="Note">📝 Shift Note</option>
         <option value="Request">🙋‍♂️ Customer Request</option>
       </select>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <label class="label">Content</label>
-        <button onclick="startDictation()" style="background:none; border:none; font-size:1.5em; cursor:pointer;">🎙️</button>
-      </div>
       <textarea id="logContent" class="input" rows="4" placeholder="Type or use mic..."></textarea>
       <button class="modal-btn" style="background:var(--accent); color:#000;" onclick="submitLog()">Save Entry</button>
-      <button class="modal-btn close-btn" onclick="closeLogModal()">Cancel</button>
+      <button class="modal-btn" style="background:#444; color:#fff;" onclick="closeLogModal()">Cancel</button>
     </div>
   </div>
 
   <script>
-    // --- PASTE YOUR NEW WEB APP URL HERE ---
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzgW2zga-vMH344MHFIRL4Wka-M2u8apN8glO4LMplD588-LwvlKCvNXH_aQOGRfwG-/exec'; 
+    // --- PASTE YOUR WEB APP URL HERE ---
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzYCjjB3pa5dfqpKuFldK_5hHwyFhUqFIvmXdbMn7JYxkcCNKjARLemJLtUJS2mn3eT/exec'; 
 
-    async function loadData() {
-      try {
-        const res = await fetch(API_URL, {method:'POST', body: JSON.stringify({action:"get"})});
-        const data = await res.json();
-        renderCards(data);
-      } catch (e) { document.getElementById('app').innerHTML = 'Error loading data.'; }
-    }
-
+    // --- CARD RENDERING LOGIC ---
     function renderCards(data) {
       const container = document.getElementById('app');
       container.innerHTML = '';
-      data.slice(1).forEach(row => {
-        const [brand, item, , wcg, afg, panda, hbi, milky, tip, specs] = row;
+      if(data.length <= 1) { container.innerHTML = '<div style="text-align:center; color:#555; margin-top:50px;">Queue is Empty</div>'; return; }
+
+      // Columns: 0:Brand, 1:Item, 2:Cat, 3:WCG, 4:AFG, 5:Panda, 6:HBI, 7:Milky, 8:Tip, 9:Specs, 10:CUSTOM_LINK
+      data.slice(1).forEach((row, index) => {
+        const [brand, item, , wcg, afg, panda, hbi, milky, tip, specs, customLink] = row;
         if(!brand) return;
 
-        let links = '';
-        if(wcg) links += `<a href="${wcg}" target="_blank" class="vendor-btn wcg">WCG</a>`;
-        if(afg) links += `<a href="${afg}" target="_blank" class="vendor-btn">AFG</a>`;
-        if(panda) links += `<a href="${panda}" target="_blank" class="vendor-btn panda">Panda</a>`;
-        if(hbi) links += `<a href="${hbi}" target="_blank" class="vendor-btn hbi">HBI</a>`;
-        if(milky) links += `<a href="${milky}" target="_blank" class="vendor-btn">Milky</a>`;
+        // Build Links Section
+        let linkHtml = '';
+        if(customLink) linkHtml += `<a href="${customLink}" target="_blank" class="direct-link-btn">🔗 Direct Link</a>`;
+        
+        let vendorHtml = '';
+        if(wcg) vendorHtml += `<a href="${wcg}" target="_blank" class="vendor-btn">WCG</a>`;
+        if(afg) vendorHtml += `<a href="${afg}" target="_blank" class="vendor-btn">AFG</a>`;
+        if(panda) vendorHtml += `<a href="${panda}" target="_blank" class="vendor-btn">Panda</a>`;
+        if(hbi) vendorHtml += `<a href="${hbi}" target="_blank" class="vendor-btn">HBI</a>`;
+        if(milky) vendorHtml += `<a href="${milky}" target="_blank" class="vendor-btn">Milky</a>`;
+
+        const cardId = `card-${index}`;
 
         const card = document.createElement('div');
         card.className = 'card';
-        card.setAttribute('data-search', (brand + " " + item).toLowerCase()); // For Search
+        card.setAttribute('data-search', (brand + " " + item).toLowerCase());
         card.innerHTML = `
-          <div class="brand">${brand}</div>
-          <div class="item-name">${item || 'Restock Item'}</div>
-          <div class="vendor-row">${links || '<span class="label">No Links</span>'}</div>
-          <div class="info-box">
-            <span class="label">Sales Tip</span><div>${tip || 'Loading...'}</div>
-            <div style="margin-top:8px;"><span class="label">Specs</span><div class="specs">${specs || 'Loading...'}</div></div>
+          <div class="card-header">
+            <div class="brand">${brand}</div>
+            <div class="item-name">${item || 'Restock Item'}</div>
           </div>
-          <button class="archive-btn" onclick="archiveItem(this, '${brand}', '${item}')">✅ Order Placed</button>
+
+          <div class="tab-row">
+            <div class="tab-btn active" onclick="switchTab('${cardId}', 'buy', this)">🛒 BUY</div>
+            <div class="tab-btn" onclick="switchTab('${cardId}', 'info', this)">🧠 INFO</div>
+          </div>
+
+          <div class="card-body">
+            <div id="${cardId}-buy" class="section active">
+               ${linkHtml}
+               <div class="vendor-grid">${vendorHtml || '<span style="color:#555; grid-column:span 3; text-align:center;">No search links generated</span>'}</div>
+               <button class="archive-btn" onclick="archiveItem(this, '${brand}', '${item}')">✅ Order Placed</button>
+            </div>
+
+            <div id="${cardId}-info" class="section">
+               <span class="info-label">Sales Tip</span>
+               <div class="info-text">${tip || 'Analysing...'}</div>
+               <span class="info-label">Specs</span>
+               <div class="specs-list">${specs || 'Loading specs...'}</div>
+            </div>
+          </div>
         `;
         container.appendChild(card);
       });
     }
 
-    // SEARCH FILTER
+    // --- TAB SWITCHER LOGIC ---
+    function switchTab(cardId, mode, btnElement) {
+      // 1. Toggle Tabs Visuals
+      const card = btnElement.closest('.card');
+      const tabs = card.querySelectorAll('.tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      // 2. Toggle Content Sections
+      document.getElementById(`${cardId}-buy`).classList.remove('active');
+      document.getElementById(`${cardId}-info`).classList.remove('active');
+      
+      // Show selected
+      document.getElementById(`${cardId}-${mode}`).classList.add('active');
+    }
+
+    // --- HELPERS (Same as before) ---
+    function showLoading(msg) { document.getElementById('loadingText').innerText = msg; document.getElementById('loadingOverlay').style.display = 'flex'; }
+    function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
+    function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+    function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+    function openLogModal() { document.getElementById('logModal').style.display = 'flex'; }
+    function closeLogModal() { document.getElementById('logModal').style.display = 'none'; }
+
+    async function loadData() {
+      try {
+        const res = await fetch(API_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({action: "get"}) });
+        const data = await res.json();
+        renderCards(data);
+      } catch (e) { document.getElementById('app').innerHTML = '<div style="text-align:center;">System Offline</div>'; }
+    }
+
+    async function submitNewItem() {
+      const brand = document.getElementById('addBrand').value;
+      const item = document.getElementById('addItem').value;
+      const link = document.getElementById('addLink').value;
+      if(!brand) return;
+      closeAddModal(); showLoading("Adding to Queue...");
+      try { await fetch(API_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({action: "add_item", brand: brand, item: item, link: link}) }); setTimeout(() => location.reload(), 2000); } catch (e) { hideLoading(); alert("Error"); }
+    }
+
+    async function submitLog() {
+       const type = document.getElementById('logType').value;
+       const content = document.getElementById('logContent').value;
+       if(!content) return;
+       closeLogModal(); showLoading("Saving...");
+       await fetch(API_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({action: "log_entry", type: type, content: content}) });
+       hideLoading(); document.getElementById('logContent').value='';
+    }
+
+    async function archiveItem(btn, brand, item) {
+       if(!confirm("Order placed?")) return;
+       const card = btn.closest('.card'); card.style.opacity = '0.3'; btn.innerText = "Archiving...";
+       await fetch(API_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({action: "archive", brand: brand, item: item}) });
+       card.remove();
+    }
+    
     function filterCards() {
       const input = document.getElementById('searchBox').value.toLowerCase();
       const cards = document.getElementsByClassName('card');
       for (let i = 0; i < cards.length; i++) {
-        const text = cards[i].getAttribute('data-search');
-        cards[i].style.display = text.includes(input) ? "" : "none";
+        cards[i].style.display = cards[i].getAttribute('data-search').includes(input) ? "" : "none";
       }
     }
-
-    // ADD ITEM ACTIONS
-    function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
-    function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
-    function submitNewItem() {
-      const brand = document.getElementById('addBrand').value;
-      const item = document.getElementById('addItem').value;
-      if(!brand) return;
-      
-      const btn = document.querySelector('button[onclick="submitNewItem()"]');
-      const originalText = btn.innerText;
-      btn.innerText = "Adding...";
-      
-      fetch(API_URL, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"add_item", brand:brand, item:item})})
-      .then(() => { 
-        alert("Added to Queue! AI is analyzing..."); 
-        closeAddModal(); 
-        btn.innerText = originalText;
-        // Optional: Reload page to show new item (might take a second for AI)
-        setTimeout(() => location.reload(), 2000); 
-      });
-    }
-
-    // LOG ACTIONS
-    function openLogModal() { document.getElementById('logModal').style.display = 'flex'; }
-    function closeLogModal() { document.getElementById('logModal').style.display = 'none'; }
-    function submitLog() {
-      const type = document.getElementById('logType').value;
-      const content = document.getElementById('logContent').value;
-      if(!content) return;
-      fetch(API_URL, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"log_entry", type:type, content:content})})
-      .then(() => { alert("Saved!"); closeLogModal(); document.getElementById('logContent').value=''; });
-    }
-
-    // ARCHIVE ACTION
-    function archiveItem(btn, brand, item) {
-      const card = btn.closest('.card');
-      card.style.opacity = '0.5'; btn.innerText = "Archiving...";
-      fetch(API_URL, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"archive", brand:brand, item:item})})
-      .then(() => setTimeout(() => card.remove(), 500));
-    }
-
-    // VOICE
     function startDictation() {
       const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
       if(!Speech) { alert("Use keyboard mic!"); return; }
