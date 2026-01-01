@@ -15,7 +15,6 @@
     .item-name { font-size: 1.3em; font-weight: bold; margin: 5px 0 10px 0; color: #fff; }
     .direct-link { display: block; width: 100%; text-align: center; background: #00e676; color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 15px; }
     .vendor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-    
     .vendor-btn { text-align: center; background: #333; color: #bbb; padding: 10px; border-radius: 6px; text-decoration: none; font-size: 0.85em; border: 1px solid #444; transition: 0.2s; }
     
     /* COLORS */
@@ -53,7 +52,7 @@
 
   <script>
     // --- PASTE YOUR WEB APP URL HERE ---
-    const API_URL = 'https://script.google.com/macros/s/AKfycbz9hlxKJW8qrafDHU23mX5Qdhb_H9E1amGAwc7lKt-GPxbpj-cMXvl15E16IFyKwaJU/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwAwJNOJ9T3mb97ZqebLO5wtRFnPuOaWNilOuLo5aifUvZRoctLGNxt8zpgrgyfl3A7/exec';
 
     async function loadData() {
       try {
@@ -67,12 +66,24 @@
       const app = document.getElementById('app');
       app.innerHTML = '';
       data.slice(1).forEach(row => {
-        const [brand, item, , wcg, afg, panda, hbi, milky, , , customLink, maple] = row;
+        // We only grab Brand and Item. We Ignore the broken links from the sheet.
+        const [brand, item, , , , , , , , , customLink] = row;
         if(!brand) return;
         
+        // --- 1. RE-GENERATE FRESH LINKS ON THE FLY (The Fix) ---
+        const q = encodeURIComponent(brand.trim() + " " + item.trim());
+        
+        // Use exact URLs provided by user
+        const wcg   = `https://shop.westcoast.gifts/search?q=${q}`;
+        const afg   = `https://afgdistributioncanada.com/search-results-page?q=${q}`;
+        const panda = `https://420panda.ca/en/search?controller=search&orderby=position&orderway=desc&search_query=${q}`;
+        const hbi   = `https://www.hbicanada.com/search?q=${q}`;
+        const maple = `https://www.maplecraft.ca/shop/search?keyword=${q}&orderby=name&orderway=ASC`;
+        const milky = `https://milkywayglass.com/?s=${q}&post_type=product`;
+
+        // --- 2. HIGHLIGHT LOGIC ---
         const text = (brand + " " + item).toLowerCase();
         
-        // --- HIGHLIGHT LOGIC ---
         const hbiWords = ["raw", "elements", "juicy", "zen", "skunk", "dlx", "zig zag", "ocb", "job", "pure hemp", "king palm", "cyclones", "clipper", "zippo", "lighter", "torch", "smoke buddy", "mouthpeace", "cleaner", "orange chronic", "formula 420", "iso", "tray", "rolling", "roller", "scale", "tips", "cone", "paper"];
         const afgWords = ["pulsar", "grindhouse", "ooze", "lookah", "wulf", "yocan", "cali crusher", "santa cruz", "kannastor", "ryot", "mj arsenal", "empire glassworks", "grav", "shire", "dugout", "boveda", "incense", "candle", "stash"];
         const mapleWords = ["maple", "crown", "cannatonik", "spider", "nice glass", "shatter'd", "tech tubes", "blink", "newport", "high voltage", "rescue detox", "fictional", "stlth", "elfbar"];
@@ -87,12 +98,12 @@
         else { wcgClass = "wcg-primary"; }
 
         let buttons = [];
-        if(wcg) buttons.push(`<a href="${wcg}" target="_blank" class="vendor-btn ${wcgClass}">WCG</a>`);
-        if(hbi) buttons.push(`<a href="${hbi}" target="_blank" class="vendor-btn ${hbiClass}">HBI</a>`);
-        if(maple) buttons.push(`<a href="${maple}" target="_blank" class="vendor-btn ${mapleClass}">Maple</a>`);
-        if(panda) buttons.push(`<a href="${panda}" target="_blank" class="vendor-btn ${pandaClass}">Panda</a>`);
-        if(afg) buttons.push(`<a href="${afg}" target="_blank" class="vendor-btn ${afgClass}">AFG</a>`);
-        if(milky) buttons.push(`<a href="${milky}" target="_blank" class="vendor-btn">Milky</a>`);
+        buttons.push(`<a href="${wcg}" target="_blank" class="vendor-btn ${wcgClass}">WCG</a>`);
+        buttons.push(`<a href="${hbi}" target="_blank" class="vendor-btn ${hbiClass}">HBI</a>`);
+        buttons.push(`<a href="${maple}" target="_blank" class="vendor-btn ${mapleClass}">Maple</a>`);
+        buttons.push(`<a href="${panda}" target="_blank" class="vendor-btn ${pandaClass}">Panda</a>`);
+        buttons.push(`<a href="${afg}" target="_blank" class="vendor-btn ${afgClass}">AFG</a>`);
+        buttons.push(`<a href="${milky}" target="_blank" class="vendor-btn">Milky</a>`);
 
         const card = document.createElement('div');
         card.className = 'card';
