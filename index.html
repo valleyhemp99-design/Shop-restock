@@ -3,35 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#121212"> 
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
   <title>Valley Hemp OS</title>
   <style>
     body { background: #121212; color: #e0e0e0; font-family: -apple-system, sans-serif; padding: 15px; margin: 0; padding-bottom: 100px; }
-    
-    /* Responsive Grid */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; max-width: 1200px; margin: 0 auto; }
     @media (max-width: 350px) { .grid { grid-template-columns: 1fr; } }
-
     .card { background: #1e1e1e; border-radius: 12px; padding: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
     .brand { color: #00e676; font-weight: bold; text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px; }
     .item-name { font-size: 1.3em; font-weight: bold; margin: 5px 0 10px 0; color: #fff; }
-    
     .direct-link { display: block; width: 100%; text-align: center; background: #00e676; color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 15px; }
-    
     .vendor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+    
     .vendor-btn { text-align: center; background: #333; color: #bbb; padding: 10px; border-radius: 6px; text-decoration: none; font-size: 0.85em; border: 1px solid #444; transition: 0.2s; }
     
-    /* SMART HIGHLIGHT COLORS */
-    .vendor-btn.wcg-primary { border: 1px solid #00e676; color: #00e676; background: #1a2e23; font-weight: bold; box-shadow: 0 0 5px rgba(0,230,118,0.2); }
-    .vendor-btn.hbi-primary { border: 1px solid #FF5722; color: #FF5722; background: #2e1a1a; font-weight: bold; box-shadow: 0 0 5px rgba(255,87,34,0.2); }
-    .vendor-btn.panda-primary { border: 1px solid #fff; color: #fff; background: #444; font-weight: bold; box-shadow: 0 0 5px rgba(255,255,255,0.2); }
-    .vendor-btn.afg-primary { border: 1px solid #9C27B0; color: #9C27B0; background: #2a1a2e; font-weight: bold; box-shadow: 0 0 5px rgba(156,39,176,0.2); }
-    .vendor-btn.maple-primary { border: 1px solid #D32F2F; color: #D32F2F; background: #3e1a1a; font-weight: bold; box-shadow: 0 0 5px rgba(211,47,47,0.2); }
+    /* COLORS */
+    .vendor-btn.wcg-primary { border: 1px solid #00e676; color: #00e676; background: #1a2e23; font-weight: bold; }
+    .vendor-btn.hbi-primary { border: 1px solid #FF5722; color: #FF5722; background: #2e1a1a; font-weight: bold; }
+    .vendor-btn.panda-primary { border: 1px solid #fff; color: #fff; background: #444; font-weight: bold; }
+    .vendor-btn.afg-primary { border: 1px solid #9C27B0; color: #9C27B0; background: #2a1a2e; font-weight: bold; }
+    .vendor-btn.maple-primary { border: 1px solid #D32F2F; color: #D32F2F; background: #3e1a1a; font-weight: bold; }
 
     .archive-btn { width: 100%; padding: 12px; background: #2c2c2c; color: #888; border: 1px dashed #555; border-radius: 8px; cursor: pointer; }
     .fab { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #2196F3; color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 4px 10px #000; cursor: pointer; z-index: 900; }
@@ -62,7 +54,7 @@
 
   <script>
     // --- PASTE YOUR WEB APP URL HERE ---
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyccH4te_77iLapd3fFT4RLs1R4vOyZdZj-2bI3RhXnQK4Q-q8PfkQUa0RT9C1BLwmX/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxSs0GWYq-75jixnx55hebrKb09lDqyzsEBzBM8w8-_uZJdK-imZQh7dv_D4YFyYlA/exec';
 
     async function loadData() {
       try {
@@ -76,23 +68,21 @@
       const app = document.getElementById('app');
       app.innerHTML = '';
       data.slice(1).forEach(row => {
-        // We only take Brand (0), Item (1), and CustomLink (10). 
-        // We IGNORE the vendor link columns from the sheet (indices 3-7) because they might be broken.
         const [brand, item, , , , , , , , , customLink] = row;
         if(!brand) return;
         
-        // 1. RE-GENERATE FRESH LINKS (The Fix)
+        // --- UNIVERSAL LINK GENERATION ---
         const q = encodeURIComponent(brand.trim() + " " + item.trim());
         
-        // Exact Search URLs verified by user
+        // These are the "Universal" search codes for each platform
         const wcg   = `https://shop.westcoast.gifts/search?q=${q}`;
-        const afg   = `https://afgdistributioncanada.com/search-results-page?q=${q}`;
-        const panda = `https://420panda.ca/en/search?controller=search&orderby=position&orderway=desc&search_query=${q}`;
-        const hbi   = `https://www.hbicanada.com/search?q=${q}`;
-        const maple = `https://www.maplecraft.ca/shop/search?keyword=${q}&orderby=name&orderway=ASC`;
+        const afg   = `https://afgdistributioncanada.com/?s=${q}&post_type=product`;
+        const panda = `https://420panda.ca/index.php?controller=search&s=${q}`;
+        const hbi   = `https://www.hbicanada.com/catalogsearch/result/?q=${q}`;
+        const maple = `https://www.maplecraft.ca/?s=${q}&post_type=product`;
         const milky = `https://milkywayglass.com/?s=${q}&post_type=product`;
         
-        // 2. HIGHLIGHT LOGIC
+        // --- HIGHLIGHT LOGIC ---
         const text = (brand + " " + item).toLowerCase();
         
         const hbiWords = ["raw", "elements", "juicy", "zen", "skunk", "dlx", "zig zag", "ocb", "job", "pure hemp", "king palm", "cyclones", "clipper", "zippo", "lighter", "torch", "smoke buddy", "mouthpeace", "cleaner", "orange chronic", "formula 420", "iso", "tray", "rolling", "roller", "machine", "scale", "tips", "cone", "paper"];
@@ -106,10 +96,9 @@
         else if (afgWords.some(w => text.includes(w))) { afgClass = "afg-primary"; }
         else if (mapleWords.some(w => text.includes(w))) { mapleClass = "maple-primary"; }
         else if (pandaWords.some(w => text.includes(w))) { pandaClass = "panda-primary"; }
-        else { wcgClass = "wcg-primary"; } // Default
+        else { wcgClass = "wcg-primary"; }
 
         let buttons = [];
-        // Force specific button order
         buttons.push(`<a href="${wcg}" target="_blank" class="vendor-btn ${wcgClass}">WCG</a>`);
         buttons.push(`<a href="${hbi}" target="_blank" class="vendor-btn ${hbiClass}">HBI</a>`);
         buttons.push(`<a href="${maple}" target="_blank" class="vendor-btn ${mapleClass}">Maple</a>`);
@@ -137,7 +126,6 @@
       if(!brand) return;
       document.getElementById('addModal').style.display='none';
       document.getElementById('loading').style.display='flex';
-      
       try {
         await fetch(API_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({action: "add_item", brand: brand, item: item, link: link}) });
       } catch (e) { console.log("Reloading"); }
